@@ -11,4 +11,8 @@ public class NoSQL4J {
 	public static void main(final String[] args) {
 		
 	}
+	
+	public static void console(final String message) {
+		System.out.println("[NoSQL4J] " + message);
+	}
 }
