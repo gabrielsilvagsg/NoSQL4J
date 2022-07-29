@@ -14,14 +14,22 @@ public class MachineController {
 			return;
 		
 		INITIALIZED = true;
-		File dir = new File(getDirectory());
+		File dir = new File(getDatabaseDirectory());
+		
 		if (!dir.exists()) {
-			dir.mkdir();
+			dir.mkdirs();
 		}
 	}
 	
 	static {
 		initialize();
+	}
+	
+	public static String getSplitter() {
+		if (!WINDOWS) {
+			return "/";
+		}
+		return "\\";
 	}
 
 	public static String getDirectory() {
@@ -29,5 +37,12 @@ public class MachineController {
 			return "/root/" + NoSQL4J.DIRECTORY_FOLDER_NAME; //Não testado, até o momento com suporte apenas ao usuario root.
 		}
 		return "C:\\" + NoSQL4J.DIRECTORY_FOLDER_NAME;
+	}
+	
+	public static String getDatabaseDirectory() {
+		if (!WINDOWS) {
+			return "/root/" + NoSQL4J.DIRECTORY_FOLDER_NAME + "/db"; //Não testado, até o momento com suporte apenas ao usuario root.
+		}
+		return "C:\\" + NoSQL4J.DIRECTORY_FOLDER_NAME + "\\db";
 	}
 }

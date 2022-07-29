@@ -1,4 +1,4 @@
-package com.br.gabrielsilva.nosql4j.exception;
+package com.br.gabrielsilva.nosql4j.exceptions;
 
 public class DocumentLoadException extends Exception {
 	
