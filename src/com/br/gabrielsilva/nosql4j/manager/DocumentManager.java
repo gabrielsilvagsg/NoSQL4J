@@ -25,17 +25,17 @@ public class DocumentManager {
 			try {
 				file.createNewFile();
 			} catch (IOException ex) {
-				throw new DocumentLoadException("An error ocurred on create Document -> " + ex.getLocalizedMessage());
+				throw new DocumentLoadException("An error occurred on create Document -> " + ex.getLocalizedMessage());
 			}
 		}
 		
 		Document document = new Document(documentName, tableName);
 
 		try {
-			BufferedReader buferredReader = new BufferedReader(new FileReader(file));
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
-			while (buferredReader.ready()) {
-				String line = buferredReader.readLine();
+			while (bufferedReader.ready()) {
+				String line = bufferedReader.readLine();
 				
 				if (line.contains(":")) {
 					String key = line.split(":")[0], 
@@ -45,10 +45,11 @@ public class DocumentManager {
 				}
 			}
 			
-			buferredReader.close();
-			buferredReader = null;
+			bufferedReader.close();
+			bufferedReader = null;
 		} catch (IOException ex) {
-			throw new DocumentLoadException("An error ocurred on load Document -> " + ex.getLocalizedMessage());
+			document = null;
+			throw new DocumentLoadException("An error occurred on load Document -> " + ex.getLocalizedMessage());
 		}
 
 		return document;
@@ -79,22 +80,22 @@ public class DocumentManager {
 				}
 			}
 			
-	        FileWriter fw = new FileWriter(file, true);
-	        PrintWriter pw = new PrintWriter(fw);
+	        FileWriter fileWriter = new FileWriter(file, true);
+	        PrintWriter printWriter = new PrintWriter(fileWriter);
 	           
 	        for (String key : document.getHash().keySet()) {
-	             pw.println(key + ":" + document.getHash().get(key));
+	        	printWriter.println(key + ":" + document.getHash().get(key));
 	        }
 	        
-	        pw.flush();
-	        pw.close();
+	        printWriter.flush();
+	        printWriter.close();
 	        
-	        fw.close();
+	        fileWriter.close();
 	        
-	        pw = null;
-	        fw = null;
+	        printWriter = null;
+	        fileWriter = null;
 		} catch (IOException ex) {
-			NoSQL4J.console("Ocorreu um erro ao tentar salvar um Document -> " + ex.getLocalizedMessage());
+			NoSQL4J.console("An error occurred on save Document -> " + ex.getLocalizedMessage());
 		}
 	}
 	
