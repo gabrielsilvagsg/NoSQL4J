@@ -20,4 +20,8 @@ public class TableManager {
 		File db = new File(MachineController.getDatabaseDirectory(), table.toLowerCase());
 		return db != null && db.exists();
 	}
+
+	public static boolean existDocument(String documentName, String tableName) {
+		return DocumentManager.getFile(tableName, documentName).exists();
+	}
 }

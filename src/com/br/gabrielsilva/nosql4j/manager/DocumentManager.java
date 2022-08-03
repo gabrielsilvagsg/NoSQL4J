@@ -9,24 +9,21 @@ import java.io.PrintWriter;
 
 import com.br.gabrielsilva.nosql4j.NoSQL4J;
 import com.br.gabrielsilva.nosql4j.document.Document;
-import com.br.gabrielsilva.nosql4j.exceptions.DocumentLoadException;
 import com.br.gabrielsilva.nosql4j.utility.MachineController;
 
 public class DocumentManager {
 
-	public static Document getDocument(String documentName, String tableName) throws DocumentLoadException {
+	public static Document getDocument(String documentName, String tableName) {
 		if (!TableManager.existTable(tableName)) {
-			throw new DocumentLoadException("Non-existent table");
+			//throw new DocumentLoadException("Non-existent table");
+			return null;
 		}
-
+		
 		File file = getFile(tableName, documentName);
 
 		if (!file.exists()) {
-			try {
-				file.createNewFile();
-			} catch (IOException ex) {
-				throw new DocumentLoadException("An error occurred on create Document -> " + ex.getLocalizedMessage());
-			}
+			return null;
+			//throw new DocumentLoadException("An error occurred on create Document -> Document non-existent");
 		}
 		
 		Document document = new Document(documentName, tableName);
@@ -41,7 +38,10 @@ public class DocumentManager {
 					String key = line.split(":")[0], 
 							value = line.split(":")[1];
 					
-					document.getHash().put(key, value);
+					document.put(key, value);
+					
+					key = null;
+					value = null;
 				}
 			}
 			
@@ -49,7 +49,10 @@ public class DocumentManager {
 			bufferedReader = null;
 		} catch (IOException ex) {
 			document = null;
-			throw new DocumentLoadException("An error occurred on load Document -> " + ex.getLocalizedMessage());
+			//throw new DocumentLoadException("An error occurred on load Document -> " + ex.getLocalizedMessage());
+			return null;
+		} finally {
+			file = null;
 		}
 
 		return document;
@@ -84,7 +87,7 @@ public class DocumentManager {
 	        PrintWriter printWriter = new PrintWriter(fileWriter);
 	           
 	        for (String key : document.getHash().keySet()) {
-	        	printWriter.println(key + ":" + document.getHash().get(key));
+	        	printWriter.println(key + ":" + document.getValue(key));
 	        }
 	        
 	        printWriter.flush();
