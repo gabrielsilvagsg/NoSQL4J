@@ -2,20 +2,20 @@ package com.br.gabrielsilva.nosql4j.manager;
 
 import java.io.File;
 
-import com.br.gabrielsilva.nosql4j.exceptions.TableCreateExcepetion;
 import com.br.gabrielsilva.nosql4j.utility.MachineController;
 
 public class TableManager {
 
-	public static void createTable(String table) throws TableCreateExcepetion {
+	public static boolean createTable(String table) {
 		File db = new File(MachineController.getDatabaseDirectory(), table.toLowerCase());
 		if (db.exists()) {
-			throw new TableCreateExcepetion("Already existing table");
+			return false;
 		} else {
 			db.mkdirs();
+			return true;
 		}
 	}
-	
+
 	public static boolean existTable(String table) {
 		File db = new File(MachineController.getDatabaseDirectory(), table.toLowerCase());
 		return db != null && db.exists();

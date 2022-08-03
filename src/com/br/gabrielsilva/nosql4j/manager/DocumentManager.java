@@ -13,9 +13,16 @@ import com.br.gabrielsilva.nosql4j.utility.MachineController;
 
 public class DocumentManager {
 
+	public static Document getOrCreateDocument(String documentName, String tableName) {
+		Document document = getDocument(documentName, tableName);
+		if (document == null) {
+			document = new Document(documentName, tableName);
+		}
+		return document;
+	}
+	
 	public static Document getDocument(String documentName, String tableName) {
 		if (!TableManager.existTable(tableName)) {
-			//throw new DocumentLoadException("Non-existent table");
 			return null;
 		}
 		
@@ -23,7 +30,6 @@ public class DocumentManager {
 
 		if (!file.exists()) {
 			return null;
-			//throw new DocumentLoadException("An error occurred on create Document -> Document non-existent");
 		}
 		
 		Document document = new Document(documentName, tableName);
@@ -49,7 +55,6 @@ public class DocumentManager {
 			bufferedReader = null;
 		} catch (IOException ex) {
 			document = null;
-			//throw new DocumentLoadException("An error occurred on load Document -> " + ex.getLocalizedMessage());
 			return null;
 		} finally {
 			file = null;
