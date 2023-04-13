@@ -24,14 +24,18 @@ Para criar uma nova tabela:
 Para criar um documento diretamente:
 
     Document document = new Document("Nome do Documento", "Nome da Tabela");
-    document.put("nome", "Gabriel Silva");
-    document.save();
+    document.put("nome", "Gabriel Silva"); - Método put para inserir chaves e valores ao documento.
+    document.save(); - Salvar o documento
 ---------------------------------------------------------------------------------------------------------
 Para obter um documento:
 
     Document document = DocumentManager.getDocument("Nome do Documento", "Nome da Tabela");
+    - Aqui, você ja conseguiu obter/carregar o documento.
+    - Caso o documento não exista, ele irá ser nulo.
+    - Assim, você pode optar por ja criar, instanciando um novo Document, e inserindo os valores. 
+    - Exemplo abaixo:
 
-    if (document == null) {  O documento irá ser nulo se não existir! Aqui você pode adicionar seus dados e cria-lo com o método document.save();
+    if (document == null) {  
         document = new Document("Nome do Documento", "Nome da Tabela");
         document.put("nome", "Gabriel Silva");
         document.save();
